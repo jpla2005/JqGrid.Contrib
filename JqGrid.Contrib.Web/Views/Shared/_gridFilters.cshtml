@@ -1,0 +1,29 @@
+﻿@model ModelFilter
+@{
+    var formId = Model.FormId ?? "search_form";
+    var gridId = Model.GridId ?? "GridMain";
+    var formClasses = string.Join(" ", Model.Class, "gridFilterForm");
+}
+
+<div class="container-add-filter">
+    <button class="add-filter" data-formid='@formId' type="button">Add Filter</button>
+    <div>
+        <label>Filters</label>
+        <select class="select-filter">
+            <option value="-1">-- Select --</option>
+            @foreach (var item in Model.FieldFilters)
+            {
+                var enumValue = (int)item.Type;
+                <option value="@item.Name" data-type="@enumValue" data-url="@item.UrlData">@item.Description</option>
+            }
+        </select>
+    </div>
+</div>
+
+@using (Html.BeginForm(null, null, FormMethod.Get, new { id = formId, data_prefix = "", data_grid = gridId, @class = formClasses }))
+{
+    <div class="btn-filter hide">
+        <button type="reset">Limpiar</button>
+        <button type="submit">Buscar</button>
+    </div>
+}
